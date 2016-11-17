@@ -1,28 +1,53 @@
 <?php
 
+require_once "orm.php";
+require_once "config/conf.php";
+
 if($argc > 1) {
     if ($argv[1] == "create") {
         echo("create" . PHP_EOL);
         $table = $argv[2];
-        echo($table . PHP_EOL);
         $fields = $argv[3];
-        echo($fields . PHP_EOL);
         $values = $argv[4];
-        echo($values . PHP_EOL);
+
+        $orm = new ORM($config);
+
+        $result = $orm->insert($table, $fields, $values);
+
+        if(!$result)
+            echo("Row created");
+        else
+            echo("error, please show your log");
+
     } elseif ($argv[1] == "delete") {
         echo("delete" . PHP_EOL);
         $table = $argv[2];
-        echo($table . PHP_EOL);
         $where = $argv[3];
-        echo($where . PHP_EOL);
+
+        $orm = new ORM($config);
+        $result = $orm->remove($table, $where);
+
+        if(!$result)
+            echo("Row updated");
+        else
+            echo("error, please show your log");
+
     } elseif ($argv[1] == "update") {
         echo("update" . PHP_EOL);
         $table = $argv[2];
-        echo($table . PHP_EOL);
         $fields = $argv[3];
-        echo($fields . PHP_EOL);
         $values = $argv[4];
-        echo($values . PHP_EOL);
+        $where = $argv[5];
+
+        $orm = new ORM($config);
+
+        $result = $orm->update($table, $fields, $values, $where); // rajouter un where ou id
+
+        if(!$result)
+            echo("Row deleted");
+        else
+            echo("error, please show your log");
+
     }
 }else{
     $helpFile = fopen("help.txt", "r") or die("Unable to open file!");

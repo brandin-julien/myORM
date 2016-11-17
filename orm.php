@@ -1,9 +1,8 @@
 <?php
 
-require_once "action.php";
 require_once "log.php";
 
-class ORM extends log implements ActionInterface
+class ORM extends log
 {
     protected $pdo;
 
@@ -12,7 +11,7 @@ class ORM extends log implements ActionInterface
         if (sizeof($config) != 3) {
             throw new Exception('Invalid number of parameters');
         }
-        $this->pdo = new PDO($config['host'],$config['user'],$config['password']);
+        $this->pdo = new PDO($config['host'], $config['user'], $config['password']);
     }
 
     public function execQuery($query)
@@ -27,10 +26,10 @@ class ORM extends log implements ActionInterface
         $stmt->execute();
         $error = $stmt->errorInfo();
 
-        if($error[0] != 0){
-            var_dump($error);
+        if ($error[0] != 0) {
             $this->errorLog($stmt->queryString, $error);
-        }else {
+            return false;
+        } else {
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
             $finRequestTime = microtime(true);
@@ -45,86 +44,115 @@ class ORM extends log implements ActionInterface
     {
         $query = "SELECT " . $fields . " FROM " . $table;
 
-        if($where)
+        if ($where)
             $query .= " WHERE " . $where;
-        if($order)
+        if ($order)
             $query .= " ORDER BY " . $order;
-        if($limit)
+        if ($limit)
             $query .= " LIMIT " . $limit;
 
-        var_dump($query);
         $result = $this->execQuery($query);
         return $result;
     }
-    
+
     public function insert($table, $fields, $values)
     {
         $query = "INSERT INTO " . $table . "(" . $fields . ")" . " VALUES (" . $values . ")";
 
-        var_dump($query);
-        $this->execQuery($query);
+        echo($query);
+        $result = $this->execQuery($query);
+        return $result;
     }
 
     public function update($table, $fields, $values, $where = "")
     {
         $param = array();
 
-        if (sizeof($fields) != sizeof($values)){
+        if (sizeof($fields) != sizeof($values)) {
             throw new Exception("Missing fields or values");
         }
 
-        for($i = 0; $i < sizeof($fields); $i++){
+        for ($i = 0; $i < sizeof($fields); $i++) {
             $param[] = $fields[$i] . "= '" . $values[$i] . "'";
         }
         $param = implode(",", $param);
         $query = "UPDATE " . $table . " SET " . $param;
 
-        if($where)
+        if ($where)
             $query .= " WHERE " . $where;
 
-        var_dump($query);
-        $this->execQuery($query);
-    }
-    
-    public function delete($table, $where = "")
-    {
-        //TO SOMETHING
-    }
-    
-    public function find($table, $id){
-        $query = "SELECT * FROM " . $table . " WHERE id=" .$id;
-
-        var_dump($query);
         $result = $this->execQuery($query);
         return $result;
     }
 
-    public function findAll($table){
+    public function remove($table, $where = "")
+    {
+        $query = "DELETE FROM " . $table . " WHERE " . $where;
+        $result = $this->execQuery($query);
+        return $result;
+    }
+
+    public function find($table, $id)
+    {
+        $query = "SELECT * FROM " . $table . " WHERE id=" . $id;
+
+        $result = $this->execQuery($query);
+        return $result;
+    }
+
+    public function findAll($table)
+    {
         $query = "SELECT * FROM " . $table;
 
-        var_dump($query);
         $result = $this->execQuery($query);
         return $result;
     }
 
+    function findBy($table, $field, $value)
+    {
+        $query = "SELECT * FROM " . $table . " WHERE " . $field . "='" . $value . "'";
 
-    function findBy($table, $field, $value){
-        $query = "SELECT * FROM " . $table . " WHERE ". $field ."='". $value ."'";
-
-        var_dump($query);
         $result = $this->execQuery($query);
         return $result;
     }
 
-    function findOneBy($table, $field, $value){
+    function findOneBy($table, $field, $value)
+    {
 
-        $query = "SELECT * FROM " . $table . " WHERE ". $field ."='". $value ."' LIMIT 1";
+        $query = "SELECT * FROM " . $table . " WHERE " . $field . "='" . $value . "' LIMIT 1";
 
-        var_dump($query);
         $result = $this->execQuery($query);
 
-        if(!empty($result))
+        if (!empty($result))
             return $result[0];
         return null;
     }
+
+    public function count($table, $row = "*", $where = "")
+    {
+        $query = "SELECT COUNT(". $row .") FROM " . $table;
+
+        if ($where)
+            $query .= " WHERE " . $where;
+
+        $result = $this->execQuery($query);
+
+        $array = get_object_vars($result[0]);
+        return intval($array['COUNT(*)']);
+    }
+
+    public function check($table, $row = "*", $where = "")
+    {
+        $query = "SELECT ". $row ." FROM " . $table;
+
+        if ($where)
+            $query .= " WHERE " . $where;
+
+        $result = $this->execQuery($query);
+
+        $array = get_object_vars($result[0]);
+        return intval($array['COUNT(*)']);
+    }
+
+
 }

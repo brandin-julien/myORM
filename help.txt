@@ -1,12 +1,12 @@
--insert a row :
+insert a row :
     create $table $fields $values
     example: create films "title, synopsis" "myTitle, mySynopsis"
--delete a row :
+delete a row :
     delete $table $where
     example: delete films "id=1"
                 or
              delete films "title='Matrix'"
--update a row :
+update a row :
     update $table $fields $values $where
     example: create films "title, synopsis" "myTitle, mySynopsis"
 
