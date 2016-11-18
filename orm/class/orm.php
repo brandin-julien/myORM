@@ -107,7 +107,7 @@ class ORM extends log
         return $result;
     }
 
-    function findBy($table, $field, $value)
+    public function findBy($table, $field, $value)
     {
         $query = "SELECT * FROM " . $table . " WHERE " . $field . "='" . $value . "'";
 
@@ -115,7 +115,7 @@ class ORM extends log
         return $result;
     }
 
-    function findOneBy($table, $field, $value)
+    public function findOneBy($table, $field, $value)
     {
 
         $query = "SELECT * FROM " . $table . " WHERE " . $field . "='" . $value . "' LIMIT 1";
