@@ -3,26 +3,26 @@ myORM
 
 Information:
 
-*Compatibilité mySQL
-*Terminal de commaande afin d'aider l'utilisateur
-*Une gestion des logs est possibles(penser a avoir un dossier log à la racine du projet)
+* Compatibilité mySQL
+* Terminal de commaande afin d'aider l'utilisateur
+* Une gestion des logs est possibles(penser a avoir un dossier log à la racine du projet)
 
 Installation:
 -------------
 
-*Placer le dossier orm à la ressource de votre projet
-*Configurer les informations de la base de donnée dans config/conf.php
+* Placer le dossier orm à la ressource de votre projet
+* Configurer les informations de la base de donnée dans config/conf.php
 
 Utilisation:
 ------------
 
-*A mettre au début du votre fichier:
+* A mettre au début du votre fichier:
     require_once "./orm/class/orm.php";
     require_once "config/conf.php";
 
-*Instancier la class avec $myVar = new ORM($config);
+* Instancier la class avec $myVar = new ORM($config);
 
-*Appeler les différentes méthodes afin d'utiliser l'ORM
+* Appeler les différentes méthodes afin d'utiliser l'ORM
 
 Liste des fonctions:
 --------------------
