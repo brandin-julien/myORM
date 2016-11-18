@@ -1,6 +1,6 @@
 <?php
 
-require_once "log.php";
+require_once "./orm/class/log.php";
 
 class ORM extends log
 {
@@ -8,8 +8,8 @@ class ORM extends log
 
     public function __construct(array $config)
     {
-        if (sizeof($config) != 3) {
-            throw new Exception('Invalid number of parameters');
+        if (!array_key_exists("host", $config) && !array_key_exists("user", $config) && !array_key_exists("password", $config)) {
+            throw new Exception('Error of parameters');
         }
         $this->pdo = new PDO($config['host'], $config['user'], $config['password']);
     }
@@ -40,7 +40,7 @@ class ORM extends log
         }
     }
 
-    public function select($table, $fields = "*", $where = "", $order = "", $limit = null, $offset = null)
+    public function select($table, $fields = "*", $where = "", $order = "", $limit = "")
     {
         $query = "SELECT " . $fields . " FROM " . $table;
 
@@ -59,7 +59,6 @@ class ORM extends log
     {
         $query = "INSERT INTO " . $table . "(" . $fields . ")" . " VALUES (" . $values . ")";
 
-        echo($query);
         $result = $this->execQuery($query);
         return $result;
     }
@@ -141,18 +140,12 @@ class ORM extends log
         return intval($array['COUNT(*)']);
     }
 
-    public function check($table, $row = "*", $where = "")
+    public function check($table, $row, $where = "")
     {
-        $query = "SELECT ". $row ." FROM " . $table;
-
-        if ($where)
-            $query .= " WHERE " . $where;
+        $query = "SELECT ". $row ." FROM " . $table . " WHERE " . $where;
 
         $result = $this->execQuery($query);
 
-        $array = get_object_vars($result[0]);
-        return intval($array['COUNT(*)']);
+        return !empty($result);
     }
-
-
 }

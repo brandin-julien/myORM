@@ -9,4 +9,9 @@ delete a row :
 update a row :
     update $table $fields $values $where
     example: create films "title, synopsis" "myTitle, mySynopsis"
-
+create database:
+    database:create $dbName
+    example: database:create myORM
+drop database:
+    database:drop $dbName
+    example: database:drop myORM
