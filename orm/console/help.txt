@@ -10,8 +10,6 @@ update a row :
     update $table $fields $values $where
     example: create films "title, synopsis" "myTitle, mySynopsis"
 create database:
-    database:create $dbName
-    example: database:create myORM
+    database:create
 drop database:
-    database:drop $dbName
-    example: database:drop myORM
+    database:drop

@@ -64,14 +64,22 @@ if ($argc > 1) {
             echo("error, please show your log");
     } elseif ($argv[1] == "database:create") {
 
-        if(!isset($argv[2])){
-            echo("Error of syntax, database:create \$dbName");
+        $hostConfig = explode(";", $config['host']);
+
+        if(sizeof($hostConfig) < 1){
+            echo("Error, missing host config");
             return -1;
         }
 
-        $dbName = $argv[2];
+        $newConfig = [
+            "host" => $hostConfig[0],
+            "user" => "root",
+            "password" => "",
+        ];
 
-        $orm = new ORM($config);
+        $dbName = explode("=", $hostConfig[1])[1];
+
+        $orm = new ORM($newConfig);
 
         $query = "CREATE DATABASE " . $dbName . " CHARACTER SET 'latin1'";
 
@@ -84,12 +92,22 @@ if ($argc > 1) {
     }
     elseif ($argv[1] == "database:drop") {
 
-        if(!isset($argv[2])){
-            echo("Error of syntax, database:create \$dbName");
+        $hostConfig = explode(";", $config['host']);
+
+        if(sizeof($hostConfig) < 1){
+            echo("Error, missing host config");
             return -1;
         }
 
-        $dbName = $argv[2];
+        $newConfig = [
+            "host" => $hostConfig[0],
+            "user" => "root",
+            "password" => "",
+        ];
+
+        $dbName = explode("=", $hostConfig[1])[1];
+
+        $orm = new ORM($newConfig);
 
         $orm = new ORM($config);
 
