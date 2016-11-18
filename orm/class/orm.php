@@ -136,8 +136,11 @@ class ORM extends log
 
         $result = $this->execQuery($query);
 
-        $array = get_object_vars($result[0]);
-        return intval($array['COUNT(*)']);
+        if($result){
+            $array = get_object_vars($result[0]);
+            return intval($array['COUNT(*)']);
+        }
+        return 0;
     }
 
     public function check($table, $row, $where = "")
