@@ -8,7 +8,7 @@ Information:
 * Terminal de commaande afin d'aider l'utilisateur (php orm/console/console.php)
 * Une gestion des logs est possibles(penser a avoir un dossier log à la racine du projet)
 * La base de donnée peut être crée via une commande, mais les tables doivent être faite manuellement
-* Possibilité de supprimé toute la base de donnée
+* Possibilité de supprimé toute la base de donnée 
 
 Installation:
 -------------
