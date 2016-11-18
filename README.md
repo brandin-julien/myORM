@@ -2,6 +2,7 @@ myORM
 =====
 
 Information:
+------------
 
 * Compatibilité mySQL
 * Terminal de commaande afin d'aider l'utilisateur
@@ -19,9 +20,7 @@ Utilisation:
 * A mettre au début du votre fichier:
     require_once "./orm/class/orm.php";
     require_once "config/conf.php";
-
 * Instancier la class avec $myVar = new ORM($config);
-
 * Appeler les différentes méthodes afin d'utiliser l'ORM
 
 Liste des fonctions:
